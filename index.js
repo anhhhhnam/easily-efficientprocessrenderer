@@ -1,21 +1,18 @@
-function permuteUnique(nums) {
-  const result = [];
-  nums.sort((a, b) => a - b);
-  backtrack([], new Array(nums.length).fill(false));
-  return result;
-  function backtrack(current, used) {
-    if (current.length === nums.length) {
-      result.push([...current]);
-      return;
-    }
-    for (let i = 0; i < nums.length; i++) {
-      if (used[i] || (i > 0 && nums[i] === nums[i - 1] && !used[i - 1]))
-        continue;
-      current.push(nums[i]);
-      used[i] = true;
-      backtrack(current, used);
-      current.pop();
-      used[i] = false;
+function minPathSum(grid) {
+  const m = grid.length;
+  const n = grid[0].length;
+  const dp = new Array(m).fill(0).map(() => new Array(n).fill(0));
+  dp[0][0] = grid[0][0];
+  for (let i = 1; i < m; i++) {
+    dp[i][0] = dp[i - 1][0] + grid[i][0];
+  }
+  for (let j = 1; j < n; j++) {
+    dp[0][j] = dp[0][j - 1] + grid[0][j];
+  }
+  for (let i = 1; i < m; i++) {
+    for (let j = 1; j < n; j++) {
+      dp[i][j] = grid[i][j] + Math.min(dp[i - 1][j], dp[i][j - 1]);
     }
   }
+  return dp[m - 1][n - 1];
 }
