@@ -1,12 +1,16 @@
-function isAnagram(s, t) {
-  if (s.length !== t.length) return false;
-  const map = new Map();
-  for (const char of s) {
-    map.set(char, (map.get(char) || 0) + 1);
+function longestConsecutive(nums) {
+  const set = new Set(nums);
+  let longest = 0;
+  for (const num of set) {
+    if (!set.has(num - 1)) {
+      let currentNum = num;
+      let currentStreak = 1;
+      while (set.has(currentNum + 1)) {
+        currentNum++;
+        currentStreak++;
+      }
+      longest = Math.max(longest, currentStreak);
+    }
   }
-  for (const char of t) {
-    if (!map.has(char) || map.get(char) === 0) return false;
-    map.set(char, map.get(char) - 1);
-  }
-  return true;
+  return longest;
 }
